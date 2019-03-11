@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ViewAnimator
+        android:id="@+id/switcher"
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <!--顶部工具栏-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorDarkTrans">
+
+            <ImageButton
+                android:id="@+id/linkButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toStartOf="@+id/reflowButton"
+                android:background="@drawable/pdf_tools_btn_bg"
+                android:contentDescription="@string/pdf_tools_toggle_links"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_link_variant_white_48dp" />
+
+            <ImageButton
+                android:id="@+id/reflowButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toStartOf="@+id/outlineButton"
+                android:background="@drawable/pdf_tools_btn_bg"
+                android:contentDescription="@string/pdf_tools_toggle_reflow_mode"
+                android:onClick="OnEditAnnotButtonClick"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_pencil_white_48dp" />
+
+            <ImageButton
+                android:id="@+id/outlineButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toStartOf="@+id/searchButton"
+                android:background="@drawable/pdf_tools_btn_bg"
+                android:contentDescription="@string/pdf_tools_outline_title"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_list" />
+
+            <ImageButton
+                android:id="@+id/searchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toStartOf="@+id/moreButton"
+                android:background="@drawable/pdf_tools_btn_bg"
+                android:contentDescription="@string/pdf_tools_search_document"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_search_white_48dp" />
+
+            <ImageButton
+                android:id="@+id/moreButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/pdf_tools_btn_bg"
+                android:contentDescription="@string/pdf_tools_copy"
+                android:onClick="OnCopyTextButtonClick"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_content_copy_white_48dp" />
+
+        </RelativeLayout>
+
+        <!--搜索框-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorDarkTrans">
+
+            <ImageButton
+                android:id="@+id/cancelSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/pdf_tools_btn_bg"
+                android:contentDescription="@string/cancel"
+                android:onClick="OnCancelSearchButtonClick"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_close_white_48dp" />
+
+            <EditText
+                android:id="@+id/searchText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/searchBack"
+                android:layout_toEndOf="@+id/cancelSearch"
+                android:hint="@string/pdf_tools_search"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@color/text_normal"
+                android:textColorHint="@color/text_normalTrans" />
+
+            <ImageButton
+                android:id="@+id/searchBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toStartOf="@+id/searchForward"
+                android:background="@drawable/pdf_tools_btn_bg"
+                android:contentDescription="@string/pdf_tools_search_backwards"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_arrow_left_white_48dp" />
+
+            <ImageButton
+                android:id="@+id/searchForward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/pdf_tools_btn_bg"
+                android:contentDescription="@string/pdf_tools_search_forwards"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_arrow_right_white_48dp" />
+
+        </RelativeLayout>
+
+        <!--注释-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorDarkTrans">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/pdf_tools_btn_bg"
+                android:contentDescription="@string/cancel"
+                android:onClick="OnCancelMoreButtonClick"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_close_white_48dp" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toStartOf="@+id/underlineButton"
+                android:background="@drawable/pdf_tools_btn_bg"
+                android:contentDescription="@string/pdf_tools_highlight"
+                android:onClick="OnHighlightButtonClick"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_format_color_fill_white_48dp" />
+
+            <ImageButton
+                android:id="@+id/underlineButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toStartOf="@+id/strikeOutButton"
+                android:background="@drawable/pdf_tools_btn_bg"
+                android:contentDescription="@string/pdf_tools_underline"
+                android:onClick="OnUnderlineButtonClick"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_format_vertical_align_bottom_white_48dp" />
+
+            <ImageButton
+                android:id="@+id/strikeOutButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toStartOf="@+id/inkButton"
+                android:background="@drawable/pdf_tools_btn_bg"
+                android:contentDescription="@string/pdf_tools_strike_out"
+                android:onClick="OnStrikeOutButtonClick"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_format_vertical_align_center_white_48dp" />
+
+            <ImageButton
+                android:id="@+id/inkButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/pdf_tools_btn_bg"
+                android:contentDescription="@string/pdf_tools_ink"
+                android:onClick="OnInkButtonClick"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_pencil_white_48dp" />
+
+        </RelativeLayout>
+
+        <!--删除标记-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorDarkTrans">
+
+            <ImageButton
+                android:id="@+id/cancelDeleteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/pdf_tools_btn_bg"
+                android:contentDescription="@string/cancel"
+                android:onClick="OnCancelDeleteButtonClick"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_close_white_48dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/deleteButton"
+                android:layout_toEndOf="@+id/cancelDeleteButton"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@string/pdf_tools_delete"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#FFFFFF" />
+
+            <ImageButton
+                android:id="@+id/deleteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/pdf_tools_btn_bg"
+                android:contentDescription="@string/pdf_tools_delete"
+                android:onClick="OnDeleteButtonClick"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_delete_white_48dp" />
+
+        </RelativeLayout>
+
+        <!--标记中各功能取消确定-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorDarkTrans">
+
+            <ImageButton
+                android:id="@+id/cancelAcceptButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/pdf_tools_btn_bg"
+                android:contentDescription="@string/cancel"
+                android:onClick="OnCancelAcceptButtonClick"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_close_white_48dp" />
+
+            <TextView
+                android:id="@+id/annotType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/acceptButton"
+                android:layout_toEndOf="@+id/cancelAcceptButton"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#FFFFFF" />
+
+            <ImageButton
+                android:id="@+id/acceptButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/pdf_tools_btn_bg"
+                android:contentDescription="@string/pdf_tools_accept"
+                android:onClick="OnAcceptButtonClick"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_check_white_48dp" />
+        </RelativeLayout>
+    </ViewAnimator>
+
+    <!--底部拖动-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <SeekBar
+            android:id="@+id/pageSlider"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@+id/pageNumber"
+            android:background="@color/colorDarkTrans"
+            android:paddingStart="16dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/pageNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/pageSlider"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorDarkTrans"
+            android:gravity="center_vertical"
+            android:paddingEnd="16dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#FFFFFF" />
+    </RelativeLayout>
+</RelativeLayout>
