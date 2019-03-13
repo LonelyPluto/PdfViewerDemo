@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="main_title">
+        <item>基础pdf显示</item>
+        <item>MuPDF自带功能</item>
+        <item>主要方法的设置</item>
+        <item>pdf插入图片</item>
+    </string-array>
+    <string-array name="main_describe">
+        <item>最基本的显示一个pdf文件 BasePDFActivity</item>
+        <item>MuPDF自带功能 MuPDFActivity</item>
+        <item>包括横竖滑动切换、超链接颜色、搜索颜色、画笔颜色、画笔粗细 SetVoidActivity</item>
+        <item>类似电子签章功能 SignActivity</item>
+    </string-array>
+</resources>

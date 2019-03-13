@@ -6,8 +6,11 @@
     tools:context=".activity.AllPDFActivity">
 
     <com.artifex.mupdfdemo.MuPDFReaderView
-        android:id="@+id/open_pdf_mupdfreaderview"
+        android:id="@+id/mu_pdf_mupdfreaderview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
+
+    <include
+        layout="@layout/pdf_tools"/>
 </RelativeLayout>

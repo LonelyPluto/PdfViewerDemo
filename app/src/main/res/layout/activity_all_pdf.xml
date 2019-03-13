@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.AllPDFActivity">
+
+    <com.artifex.mupdfdemo.MuPDFReaderView
+        android:id="@+id/open_pdf_mupdfreaderview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <include
+        android:id="@+id/open_pdf_tools"
+        layout="@layout/pdf_tools"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical"
+        >
+        <Button
+            android:id="@+id/btn_change_hv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="横"
+            />
+
+        <Button
+            android:id="@+id/btn_linkhighlightcolor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置超链接颜色"
+            />
+
+        <Button
+            android:id="@+id/btn_searchtextcolor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置搜索文字颜色"
+            />
+
+        <Button
+            android:id="@+id/btn_set_paint_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置画笔颜色"
+            />
+        <Button
+            android:id="@+id/btn_set_paint_strokewidth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置画笔粗细"
+            />
+
+
+        <Button
+            android:id="@+id/btn_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="电子签章"
+            />
+    </LinearLayout>
+
+    <com.artifex.mupdfdemo.widget.VDHDeepLayout
+        android:id="@+id/VDHDeepLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        >
+
+        <ImageView
+            android:id="@+id/iv_sign"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher"
+            />
+    </com.artifex.mupdfdemo.widget.VDHDeepLayout>
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="保存"
+        />
+
+    <ImageView
+        android:id="@+id/iv_test"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+</RelativeLayout>

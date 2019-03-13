@@ -7,14 +7,20 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.lonelypluto.pdfviewerdemo.activity.BasePDFActivity;
+import com.lonelypluto.pdfviewerdemo.activity.MuPDFActivity;
+import com.lonelypluto.pdfviewerdemo.activity.MoreSetActivity;
+import com.lonelypluto.pdfviewerdemo.activity.SignActivity;
+import com.lonelypluto.pdfviewerdemo.adapter.MainAdapter;
+import com.lonelypluto.pdfviewerdemo.entry.MainBean;
+import com.lonelypluto.pdfviewerdemo.widget.OnRecyclerItemClickListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 101;
 
-    private Button btn;
+    private RecyclerView recyclerView;
+    private MainAdapter adapter;
+    private List<MainBean> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,12 +38,66 @@ public class MainActivity extends AppCompatActivity {
 
         checkPermissions();
 
-        btn = findViewById(R.id.main_btn);
-        btn.setOnClickListener(new View.OnClickListener() {
+        initData();
+        initView();
+        setListener();
+    }
+
+    /**
+     * 初始化数据
+     */
+    private void initData(){
+        list = new ArrayList<>();
+        List<String> list_title = Arrays.asList(getResources().getStringArray(R.array.main_title));
+        List<String> list_describe = Arrays.asList(getResources().getStringArray(R.array.main_describe));
+        for (int i = 0; i < list_title.size(); i++) {
+            MainBean bean = new MainBean();
+            bean.setTitle(list_title.get(i));
+            bean.setDescribe(list_describe.get(i));
+            list.add(bean);
+        }
+    }
+
+    /**
+     * 初始化布局
+     */
+    private void initView(){
+        adapter = new MainAdapter(this, list);
+        recyclerView = (RecyclerView)findViewById(R.id.main_rv);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);//HORIZONTAL 水平
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(adapter);
+    }
+
+    /**
+     * 设置点击事件
+     */
+    private void setListener(){
+        recyclerView.addOnItemTouchListener(new OnRecyclerItemClickListener(recyclerView) {
             @Override
-            public void onClick(View v) {
-                Log.e(TAG, "btn");
-                startActivity(new Intent(MainActivity.this, BasePDFActivity.class));
+            public void onItemClick(RecyclerView.ViewHolder vh) {
+                switch (vh.getLayoutPosition()) {
+                    case 0:
+                        startActivity(new Intent(MainActivity.this, BasePDFActivity.class));
+                        break;
+                    case 1:
+                        startActivity(new Intent(MainActivity.this, MuPDFActivity.class));
+                        break;
+                    case 2:
+                        startActivity(new Intent(MainActivity.this, MoreSetActivity.class));
+                        break;
+                    case 3:
+                        startActivity(new Intent(MainActivity.this, SignActivity.class));
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onItemLongClick(RecyclerView.ViewHolder vh) {
+
             }
         });
     }
