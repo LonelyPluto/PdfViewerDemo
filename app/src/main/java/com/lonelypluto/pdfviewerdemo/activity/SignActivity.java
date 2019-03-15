@@ -102,7 +102,7 @@ public class SignActivity extends AppCompatActivity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e(TAG, "btn_save");
+                // 这里注意 in_path 和 out_path 不能一样 边读边写会出错
                 String in_path = filePath;
                 String out_path = in_path.substring(0, in_path.length() - 4) + "_t2.pdf";
                 SavePdf savePdf = new SavePdf(in_path, out_path);
@@ -158,8 +158,8 @@ public class SignActivity extends AppCompatActivity {
             alert.show();
             return;
         }
-
-        createUI();
+        // 显示
+        muPDFReaderView.setAdapter(new MuPDFPageAdapter(this, muPDFCore));
     }
 
     private static Bitmap getBitmap(Context context, int vectorDrawableId) {
@@ -195,35 +195,6 @@ public class SignActivity extends AppCompatActivity {
             return null;
         }
         return muPDFCore;
-    }
-
-    private void createUI() {
-        if (muPDFCore == null)
-            return;
-        // 设置监听事件 必须要设置
-        muPDFReaderView.setListener(new MuPDFReaderViewListener() {
-            @Override
-            public void onMoveToChild(int i) {
-
-            }
-
-            @Override
-            public void onTapMainDocArea() {
-
-            }
-
-            @Override
-            public void onDocMotion() {
-
-            }
-
-            @Override
-            public void onHit(Hit item) {
-
-            }
-        });
-        // 显示
-        muPDFReaderView.setAdapter(new MuPDFPageAdapter(this, muPDFCore));
     }
 
     @Override

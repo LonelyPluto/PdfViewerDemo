@@ -49,7 +49,7 @@ import com.lonelypluto.pdfviewerdemo.R;
 import java.util.concurrent.Executor;
 
 /**
- * @Description: 一些主要方法的设置
+ * @Description: 一些主要方法的设置，在已有功能的基础上增加了一些动态设置参数的方法
  * @author: ZhangYW
  * @time: 2019/3/11 15:56
  */
@@ -58,14 +58,14 @@ public class MoreSetActivity extends AppCompatActivity {
     private final int OUTLINE_REQUEST = 0;// 目录回调
     private String filePath = Environment.getExternalStorageDirectory() + "/pdf_t1.pdf"; // 文件路径
 
-    private AlertDialog.Builder mAlertBuilder;
+    private AlertDialog.Builder mAlertBuilder;// 弹出框
 
     private MuPDFCore muPDFCore;// 加载mupdf.so文件
     private MuPDFReaderView muPDFReaderView;// 显示pdf的view
 
     private boolean mAlertsActive = false;
     private AsyncTask<Void, Void, MuPDFAlert> mAlertTask;
-    private AlertDialog mAlertDialog;
+    private AlertDialog mAlertDialog;// 初始加载pdf等待弹出框
 
     // tools
     private ViewAnimator mTopBarSwitcher;// 工具栏动画
@@ -74,7 +74,7 @@ public class MoreSetActivity extends AppCompatActivity {
     private ImageButton mSearchButton;// 搜索
     private ImageButton mAnnotButton;// 注释
     // tools 搜索框
-    private EditText mSearchText;// 搜索内容输入框
+    private EditText et_searchText;// 搜索内容输入框
     private ImageButton mSearchBack;// 搜索内容上一个
     private ImageButton mSearchFwd;// 搜索内容下一个
     // tools 注释类型
@@ -104,45 +104,19 @@ public class MoreSetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_more_set);
 
         initView();
-        setPDFVoid();
     }
 
+    /**
+     * 初始化
+     */
     private void initView() {
         SharedPreferencesUtil.init(getApplication());
 
         muPDFReaderView = (MuPDFReaderView)findViewById(R.id.mupdfreaderview);
 
         initToolsView();
-
-        mAlertBuilder  = new AlertDialog.Builder(this);
-        //  keep a static copy of this that other classes can use
-
-        // 通过MuPDFCore打开pdf文件
-        muPDFCore = openFile(filePath);
-        // 搜索设为空
-        SearchTaskResult.set(null);
-        // 判断如果core为空，提示不能打开文件
-        if (muPDFCore == null) {
-            AlertDialog alert = mAlertBuilder.create();
-            alert.setTitle(com.lonelypluto.pdflibrary.R.string.cannot_open_document);
-            alert.setButton(AlertDialog.BUTTON_POSITIVE, getString(com.lonelypluto.pdflibrary.R.string.dismiss),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    });
-            alert.setOnCancelListener(new DialogInterface.OnCancelListener() {
-
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    finish();
-                }
-            });
-            alert.show();
-            return;
-        }
-
-        createUI();
+        createPDF();
+        setPDFVoid();
     }
 
     private void setPDFVoid(){
@@ -212,7 +186,7 @@ public class MoreSetActivity extends AppCompatActivity {
         mOutlineButton = (ImageButton) findViewById(R.id.outlineButton);
         mSearchButton = (ImageButton) findViewById(R.id.searchButton);
 
-        mSearchText = (EditText) findViewById(R.id.searchText);
+        et_searchText = (EditText) findViewById(R.id.searchText);
         mSearchBack = (ImageButton) findViewById(R.id.searchBack);
         mSearchFwd = (ImageButton) findViewById(R.id.searchForward);
 
@@ -224,6 +198,79 @@ public class MoreSetActivity extends AppCompatActivity {
         mTopBarSwitcher.setVisibility(View.INVISIBLE);
         mPageNumberView.setVisibility(View.INVISIBLE);
         mPageSlider.setVisibility(View.INVISIBLE);
+    }
+
+    private void createPDF() {
+        mAlertBuilder  = new AlertDialog.Builder(this);
+
+        // 通过MuPDFCore打开pdf文件
+        muPDFCore = openFile(filePath);
+        // 搜索设为空
+        SearchTaskResult.set(null);
+        // 判断如果core为空，提示不能打开文件
+        if (muPDFCore == null) {
+            AlertDialog alert = mAlertBuilder.create();
+            alert.setTitle(com.lonelypluto.pdflibrary.R.string.cannot_open_document);
+            alert.setButton(AlertDialog.BUTTON_POSITIVE, getString(com.lonelypluto.pdflibrary.R.string.dismiss),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    });
+            alert.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    finish();
+                }
+            });
+            alert.show();
+            return;
+        }
+        // 显示
+        muPDFReaderView.setAdapter(new MuPDFPageAdapter(this, muPDFCore));
+        // Set up the page slider
+        int smax = Math.max(muPDFCore.countPages() - 1, 1);
+        mPageSliderRes = ((10 + smax - 1) / smax) * 2;
+
+        // 创建搜索任务
+        mSearchTask = new SearchTask(this, muPDFCore) {
+            @Override
+            protected void onTextFound(SearchTaskResult result) {
+                SearchTaskResult.set(result);
+                // Ask the ReaderView to move to the resulting page
+                muPDFReaderView.setDisplayedViewIndex(result.pageNumber);
+                // Make the ReaderView act on the change to SearchTaskResult
+                // via overridden onChildSetup method.
+                muPDFReaderView.resetupChildren();
+            }
+        };
+
+        // Search invoking buttons are disabled while there is no text specified
+        mSearchBack.setEnabled(false);
+        mSearchFwd.setEnabled(false);
+        mSearchBack.setColorFilter(Color.argb(0xFF, 250, 250, 250));
+        mSearchFwd.setColorFilter(Color.argb(0xFF, 250, 250, 250));
+
+        // 判断如果pdf文件有目录
+        if (muPDFCore.hasOutline()) {
+            // 点击目录按钮跳转到目录页
+            mOutlineButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    OutlineItem outline[] = muPDFCore.getOutline();
+                    if (outline != null) {
+                        OutlineActivityData.get().items = outline;
+                        Intent intent = new Intent(MoreSetActivity.this, OutlineActivity.class);
+                        startActivityForResult(intent, OUTLINE_REQUEST);
+                    }
+                }
+            });
+        } else {
+            mOutlineButton.setVisibility(View.GONE);
+        }
+
+        // 设置监听事件
+        setListener();
     }
 
     /**
@@ -249,21 +296,113 @@ public class MoreSetActivity extends AppCompatActivity {
         return muPDFCore;
     }
 
-    private void createUI() {
-        if (muPDFCore == null)
-            return;
-        // Set up the page slider
-        int smax = Math.max(muPDFCore.countPages() - 1, 1);
-        mPageSliderRes = ((10 + smax - 1) / smax) * 2;
+    /**
+     * 设置监听事件
+     */
+    private void setListener(){
+        // 设置MuPDFReaderView的监听事件
+        setMuPDFReaderViewListener();
+        // 设置页面拖动条监听事件
+        mPageSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                muPDFReaderView.setDisplayedViewIndex((seekBar.getProgress() + mPageSliderRes / 2) / mPageSliderRes);
+            }
 
-        // Now create the UI.
-        // First create the document view
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                updatePageNumView((progress + mPageSliderRes / 2) / mPageSliderRes);
+            }
+        });
+        // 搜索按钮
+        mSearchButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                searchModeOn();
+            }
+        });
+        // 注释按钮
+        if (muPDFCore.fileFormat().startsWith("PDF") && muPDFCore.isUnencryptedPDF() && !muPDFCore.wasOpenedFromBuffer()) {
+            mAnnotButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    mTopBarMode = TopBarMode.Annot;
+                    mTopBarSwitcher.setDisplayedChild(mTopBarMode.ordinal());
+                }
+            });
+        } else {
+            mAnnotButton.setVisibility(View.GONE);
+        }
+        // 搜索的输入框监听事件
+        et_searchText.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+                boolean haveText = s.toString().length() > 0;
+                setButtonEnabled(mSearchBack, haveText);
+                setButtonEnabled(mSearchFwd, haveText);
+
+                // Remove any previous search results
+                if (SearchTaskResult.get() != null && !et_searchText.getText().toString().equals(SearchTaskResult.get().txt)) {
+                    SearchTaskResult.set(null);
+                    muPDFReaderView.resetupChildren();
+                }
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+            }
+        });
+
+        //React to Done button on keyboard
+        et_searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE)
+                    search(1);
+                return false;
+            }
+        });
+
+        et_searchText.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER)
+                    search(1);
+                return false;
+            }
+        });
+
+        // Activate search invoking buttons
+        mSearchBack.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                search(-1);
+            }
+        });
+        mSearchFwd.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                search(1);
+            }
+        });
+
+        mLinkButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setLinkHighlight(!mLinkHighlight);
+            }
+        });
+    }
+
+    /**
+     * 设置MuPDFReaderView的监听事件
+     */
+    private void setMuPDFReaderViewListener(){
         muPDFReaderView.setListener(new MuPDFReaderViewListener() {
             @Override
             public void onMoveToChild(int i) {
-                if (muPDFCore == null)
+                if (muPDFCore == null) {
                     return;
-
+                }
                 mPageNumberView.setText(String.format("%d / %d", i + 1,
                         muPDFCore.countPages()));
                 mPageSlider.setMax((muPDFCore.countPages() - 1) * mPageSliderRes);
@@ -311,134 +450,6 @@ public class MoreSetActivity extends AppCompatActivity {
                 }
             }
         });
-        // 显示
-        muPDFReaderView.setAdapter(new MuPDFPageAdapter(this, muPDFCore));
-
-        mSearchTask = new SearchTask(this, muPDFCore) {
-            @Override
-            protected void onTextFound(SearchTaskResult result) {
-                SearchTaskResult.set(result);
-                // Ask the ReaderView to move to the resulting page
-                muPDFReaderView.setDisplayedViewIndex(result.pageNumber);
-                // Make the ReaderView act on the change to SearchTaskResult
-                // via overridden onChildSetup method.
-                muPDFReaderView.resetupChildren();
-            }
-        };
-
-        mPageSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                muPDFReaderView.setDisplayedViewIndex((seekBar.getProgress() + mPageSliderRes / 2) / mPageSliderRes);
-            }
-
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            public void onProgressChanged(SeekBar seekBar, int progress,
-                                          boolean fromUser) {
-                updatePageNumView((progress + mPageSliderRes / 2) / mPageSliderRes);
-            }
-        });
-
-        // Activate the search-preparing button
-        mSearchButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                searchModeOn();
-            }
-        });
-
-        if (muPDFCore.fileFormat().startsWith("PDF") && muPDFCore.isUnencryptedPDF() && !muPDFCore.wasOpenedFromBuffer()) {
-            mAnnotButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    mTopBarMode = TopBarMode.Annot;
-                    mTopBarSwitcher.setDisplayedChild(mTopBarMode.ordinal());
-                }
-            });
-        } else {
-            mAnnotButton.setVisibility(View.GONE);
-        }
-
-        // Search invoking buttons are disabled while there is no text specified
-        mSearchBack.setEnabled(false);
-        mSearchFwd.setEnabled(false);
-        mSearchBack.setColorFilter(Color.argb(0xFF, 250, 250, 250));
-        mSearchFwd.setColorFilter(Color.argb(0xFF, 250, 250, 250));
-
-        // React to interaction with the text widget
-        mSearchText.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {
-                boolean haveText = s.toString().length() > 0;
-                setButtonEnabled(mSearchBack, haveText);
-                setButtonEnabled(mSearchFwd, haveText);
-
-                // Remove any previous search results
-                if (SearchTaskResult.get() != null && !mSearchText.getText().toString().equals(SearchTaskResult.get().txt)) {
-                    SearchTaskResult.set(null);
-                    muPDFReaderView.resetupChildren();
-                }
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before,
-                                      int count) {
-            }
-        });
-
-        //React to Done button on keyboard
-        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE)
-                    search(1);
-                return false;
-            }
-        });
-
-        mSearchText.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER)
-                    search(1);
-                return false;
-            }
-        });
-
-        // Activate search invoking buttons
-        mSearchBack.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                search(-1);
-            }
-        });
-        mSearchFwd.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                search(1);
-            }
-        });
-
-        mLinkButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                setLinkHighlight(!mLinkHighlight);
-            }
-        });
-
-        // 判断如果pdf文件有目录
-        if (muPDFCore.hasOutline()) {
-            // 点击目录按钮跳转到目录页
-            mOutlineButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    OutlineItem outline[] = muPDFCore.getOutline();
-                    if (outline != null) {
-                        OutlineActivityData.get().items = outline;
-                        Intent intent = new Intent(MoreSetActivity.this, OutlineActivity.class);
-                        startActivityForResult(intent, OUTLINE_REQUEST);
-                    }
-                }
-            });
-        } else {
-            mOutlineButton.setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -500,7 +511,7 @@ public class MoreSetActivity extends AppCompatActivity {
             mPageSlider.setMax((muPDFCore.countPages() - 1) * mPageSliderRes);
             mPageSlider.setProgress(index * mPageSliderRes);
             if (mTopBarMode == TopBarMode.Search) {
-                mSearchText.requestFocus();
+                et_searchText.requestFocus();
                 showKeyboard();
             }
 
@@ -594,7 +605,7 @@ public class MoreSetActivity extends AppCompatActivity {
     private void showKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null)
-            imm.showSoftInput(mSearchText, 0);
+            imm.showSoftInput(et_searchText, 0);
     }
 
     /**
@@ -603,7 +614,7 @@ public class MoreSetActivity extends AppCompatActivity {
     private void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null)
-            imm.hideSoftInputFromWindow(mSearchText.getWindowToken(), 0);
+            imm.hideSoftInputFromWindow(et_searchText.getWindowToken(), 0);
     }
 
     /**
@@ -652,7 +663,7 @@ public class MoreSetActivity extends AppCompatActivity {
         if (mTopBarMode != TopBarMode.Search) {
             mTopBarMode = TopBarMode.Search;
             //Focus on EditTextWidget
-            mSearchText.requestFocus();
+            et_searchText.requestFocus();
             showKeyboard();
             mTopBarSwitcher.setDisplayedChild(mTopBarMode.ordinal());
         }
@@ -842,7 +853,7 @@ public class MoreSetActivity extends AppCompatActivity {
         int displayPage = muPDFReaderView.getDisplayedViewIndex();
         SearchTaskResult r = SearchTaskResult.get();
         int searchPage = r != null ? r.pageNumber : -1;
-        mSearchTask.go(mSearchText.getText().toString(), direction, displayPage, searchPage);
+        mSearchTask.go(et_searchText.getText().toString(), direction, displayPage, searchPage);
     }
 
     /**

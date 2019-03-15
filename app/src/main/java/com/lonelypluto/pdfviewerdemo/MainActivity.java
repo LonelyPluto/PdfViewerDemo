@@ -80,15 +80,19 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(RecyclerView.ViewHolder vh) {
                 switch (vh.getLayoutPosition()) {
                     case 0:
+                        // 基础功能仅显示pdf
                         startActivity(new Intent(MainActivity.this, BasePDFActivity.class));
                         break;
                     case 1:
+                        // MuPDF已有功能
                         startActivity(new Intent(MainActivity.this, MuPDFActivity.class));
                         break;
                     case 2:
+                        // 一些主要方法的设置
                         startActivity(new Intent(MainActivity.this, MoreSetActivity.class));
                         break;
                     case 3:
+                        // 电子签章
                         startActivity(new Intent(MainActivity.this, SignActivity.class));
                         break;
                 }
@@ -102,36 +106,36 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * 权限回调
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case WRITE_EXTERNAL_STORAGE_REQUEST_CODE:
                 java.util.Map<String, Integer> perms = new HashMap<>();
-                // Initial
-//                perms.put(Manifest.permission.ACCESS_FINE_LOCATION, PackageManager.PERMISSION_GRANTED);
                 perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
-                // Fill with results
-                for (int i = 0; i < permissions.length; i++)
+                for (int i = 0; i < permissions.length; i++){
                     perms.put(permissions[i], grantResults[i]);
-                // Check for ACCESS_FINE_LOCATION and WRITE_EXTERNAL_STORAGE
-//                Boolean location = perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+                }
                 Boolean storage = perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
                 if (storage) {
-                    // All Permissions Granted
                     Toast.makeText(this, "允许存储权限", Toast.LENGTH_SHORT).show();
-
-                } else { // !location && !storage case
-                    // Permission Denied
+                } else {
                     Toast.makeText(this, "存储权限被拒绝", Toast.LENGTH_SHORT).show();
                 }
-
                 break;
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         }
     }
 
+    /**
+     * 申请读写权限
+     */
     private void checkPermissions() {
         List<String> permissions = new ArrayList<>();
 
@@ -141,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         if (!permissions.isEmpty()) {
             String[] params = permissions.toArray(new String[permissions.size()]);
             ActivityCompat.requestPermissions(this, params, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
-        } else {// else: We already have permissions, so handle as normal
+        } else {
 
         }
     }

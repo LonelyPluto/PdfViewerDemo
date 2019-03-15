@@ -28,6 +28,7 @@ import java.util.concurrent.Executor;
  */
 public class BasePDFActivity extends AppCompatActivity {
     private static final String TAG = BasePDFActivity.class.getSimpleName();
+
     private String filePath = Environment.getExternalStorageDirectory() + "/pdf_t1.pdf"; // 文件路径
 
     private MuPDFCore muPDFCore;// 加载mupdf.so文件
@@ -40,6 +41,9 @@ public class BasePDFActivity extends AppCompatActivity {
         initView();
     }
 
+    /**
+     * 初始化
+     */
     private void initView() {
 
         muPDFReaderView = (MuPDFReaderView)findViewById(R.id.open_pdf_mupdfreaderview);
@@ -65,8 +69,8 @@ public class BasePDFActivity extends AppCompatActivity {
             alert.show();
             return;
         }
-
-        createUI();
+        // 显示
+        muPDFReaderView.setAdapter(new MuPDFPageAdapter(this, muPDFCore));
     }
 
     /**
@@ -87,13 +91,6 @@ public class BasePDFActivity extends AppCompatActivity {
             return null;
         }
         return muPDFCore;
-    }
-
-    private void createUI() {
-        if (muPDFCore == null)
-            return;
-        // 显示
-        muPDFReaderView.setAdapter(new MuPDFPageAdapter(this, muPDFCore));
     }
 
     @Override
