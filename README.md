@@ -14,7 +14,7 @@ PdfViewerDemo is developed within the [mupdf](https://mupdf.com/downloads/) proj
 pdf-viewer is available through JCenter. To be able to use this library in your project, add the following dependency to your build.gradle file:
 ~~~ 
 dependencies{
-	implementation 'com.lonelypluto:pdf-viewer:1.0.6'
+	implementation 'com.lonelypluto:pdf-viewer:1.0.7'
  }
  ~~~
  Simple use cases will look something like this:
