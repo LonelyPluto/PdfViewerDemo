@@ -31,4 +31,4 @@ MuPDFCore muPDFCore = new MuPDFCore(this, filePath);
 muPDFReaderView.setAdapter(new MuPDFPageAdapter(this, muPDFCore));
 ~~~
 # 特别说明
-本来写个库可以方便使用，但是总有一些人跟我要.so文件甚至要.so文件的源码，都懂，这里就不多说了，最近一年太忙也没有太多时间和精力去扩展新的功能，我把.so文件放到项目的根目录libs文件夹中，希望对有需要的人提供一点帮助吧
+本来写个库可以方便使用，但是总有一些人跟我要.so文件甚至要.so文件的源码，这里就不多说了，最近一年太忙也没有太多时间和精力去扩展新的功能，我把.so文件放到项目的根目录libs文件夹中，希望对有需要的人提供一点帮助吧
