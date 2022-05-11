@@ -3,17 +3,18 @@ package com.lonelypluto.pdfviewerdemo;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.lonelypluto.pdfviewerdemo.activity.BasePDFActivity;
-import com.lonelypluto.pdfviewerdemo.activity.MuPDFActivity;
 import com.lonelypluto.pdfviewerdemo.activity.MoreSetActivity;
+import com.lonelypluto.pdfviewerdemo.activity.MuPDFActivity;
 import com.lonelypluto.pdfviewerdemo.activity.SignActivity;
 import com.lonelypluto.pdfviewerdemo.adapter.MainAdapter;
 import com.lonelypluto.pdfviewerdemo.entry.MainBean;

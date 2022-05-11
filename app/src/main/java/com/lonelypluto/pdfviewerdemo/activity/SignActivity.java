@@ -11,13 +11,15 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
+
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.artifex.mupdfdemo.Hit;
 import com.artifex.mupdfdemo.MuPDFCore;
@@ -124,7 +126,7 @@ public class SignActivity extends AppCompatActivity {
                 float density = metric.density;
                 savePdf.setDensity(density);
 
-                Bitmap bitmap = getBitmap(SignActivity.this, com.lonelypluto.pdflibrary.R.mipmap.ic_launcher);
+                Bitmap bitmap = getBitmap(SignActivity.this, com.lonelypluto.pdfviewerdemo.R.mipmap.ic_launcher);
                 savePdf.setBitmap(bitmap);
 
                 savePdfTask = new SavePdfTask(savePdf);
@@ -141,8 +143,8 @@ public class SignActivity extends AppCompatActivity {
         // 判断如果core为空，提示不能打开文件
         if (muPDFCore == null) {
             AlertDialog alert = new AlertDialog.Builder(this).create();
-            alert.setTitle(com.lonelypluto.pdflibrary.R.string.cannot_open_document);
-            alert.setButton(AlertDialog.BUTTON_POSITIVE, getString(com.lonelypluto.pdflibrary.R.string.dismiss),
+            alert.setTitle(com.lonelypluto.pdfviewerdemo.R.string.cannot_open_document);
+            alert.setButton(AlertDialog.BUTTON_POSITIVE, getString(com.lonelypluto.pdfviewerdemo.R.string.dismiss),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             finish();

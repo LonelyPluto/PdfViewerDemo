@@ -1,7 +1,8 @@
 package com.lonelypluto.pdfviewerdemo.widget;
 
-import android.support.v4.view.GestureDetectorCompat;
-import android.support.v7.widget.RecyclerView;
+import androidx.core.view.GestureDetectorCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;

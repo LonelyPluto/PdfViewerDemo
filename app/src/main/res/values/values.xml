@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="button_normal">#00000000</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccentTrans">#80ffa000</color>
+    <color name="colorDarkTrans">#80607d8b</color>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="link_bg">#2200ffff</color>
+    <color name="muPDFReaderView_bg">#ffffff</color>
+    <color name="paint_color">#0000FF</color>
+    <color name="rv_item_line_bg">#eeeeee</color>
+    <color name="rv_item_line_tv">#000000</color>
+    <color name="search_bg">#440000ff</color>
+    <color name="text_normal">#fafafa</color>
+    <color name="text_normalTrans">#80fafafa</color>
+    <string name="app_name">PDFLibrary</string>
+    <string name="cancel">取消</string>
+    <string name="cannot_open_buffer">不能打开buffer</string>
+    <string name="cannot_open_document">不能打开该文件，请检查文件格式是否正确</string>
+    <string name="cannot_open_file_Path">不能打开文件: %1$s</string>
+    <string name="choose_value">选择值</string>
+    <string name="copied_to_clipboard">已经复制到剪切板</string>
+    <string name="copy_text">复制文字</string>
+    <string name="dialog_title">提示</string>
+    <string name="dismiss">确定</string>
+    <string name="document_has_changes_save_them">文件已经修改，是否保存？</string>
+    <string name="enter_password">输入密码</string>
+    <string name="fill_out_text_field">填写文本字段</string>
+    <string name="no">否</string>
+    <string name="no_further_occurrences_found">没有发现更多</string>
+    <string name="no_text_selected">没有选中文字</string>
+    <string name="not_supported">不支持</string>
+    <string name="nothing_to_save">没有要保存的内容</string>
+    <string name="okay">确定</string>
+    <string name="pdf_tools_accept">Accept</string>
+    <string name="pdf_tools_copy">copy</string>
+    <string name="pdf_tools_delete">删除</string>
+    <string name="pdf_tools_draw_annotation">请绘制</string>
+    <string name="pdf_tools_highlight">高亮</string>
+    <string name="pdf_tools_ink">手绘</string>
+    <string name="pdf_tools_outline_title">Table of Contents</string>
+    <string name="pdf_tools_search">请输入要搜索的内容</string>
+    <string name="pdf_tools_search_backwards">Search backwards</string>
+    <string name="pdf_tools_search_document">Search document</string>
+    <string name="pdf_tools_search_forwards">Search forwards</string>
+    <string name="pdf_tools_strike_out">删除线</string>
+    <string name="pdf_tools_toggle_links">Highlight and enable links</string>
+    <string name="pdf_tools_toggle_reflow_mode" translatable="false">Toggle reflow mode</string>
+    <string name="pdf_tools_underline">下划线</string>
+    <string name="searching">搜索中…</string>
+    <string name="select_certificate_and_sign">选择证书并签名?</string>
+    <string name="select_text">请选择文字</string>
+    <string name="signature_checked">签名已检查</string>
+    <string name="text_not_found">内容没有找到</string>
+    <string name="yes">是</string>
+</resources>
