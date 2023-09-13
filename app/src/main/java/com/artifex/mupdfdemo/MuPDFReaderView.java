@@ -78,7 +78,11 @@ public class MuPDFReaderView extends ReaderView
     public void setMode(final Mode m) {
         this.mMode = m;
     }
-    
+
+    public Mode getMode() {
+        return mMode;
+    }
+
     private void setup() {
         final DisplayMetrics dm = new DisplayMetrics();
         final WindowManager wm = (WindowManager)this.mContext.getSystemService(Context.WINDOW_SERVICE);

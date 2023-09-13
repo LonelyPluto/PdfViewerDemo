@@ -46,7 +46,7 @@ public class MuPDFPageView extends PageView implements MuPDFView
     private EditText mEditText;
     private AsyncTask<String, Void, Boolean> mSetWidgetText;
     private AsyncTask<String, Void, Void> mSetWidgetChoice;
-    private AsyncTask<PointF[], Void, Void> mAddStrikeOut;
+    private AsyncTask<Object, Void, Void> mAddStrikeOut;
     private AsyncTask<Object, Void, Void> mAddInk;
     private AsyncTask<Integer, Void, Void> mDeleteAnnotation;
     private AsyncTask<Void, Void, String> mCheckSignature;
@@ -364,9 +364,9 @@ public class MuPDFPageView extends PageView implements MuPDFView
         if (quadPoints.size() == 0) {
             return false;
         }
-        (this.mAddStrikeOut = new AsyncTask<PointF[], Void, Void>() {
-            protected Void doInBackground(final PointF[]... params) {
-                MuPDFPageView.this.addMarkup(params[0], type);
+        (this.mAddStrikeOut = new AsyncTask<Object, Void, Void>() {
+            protected Void doInBackground(final Object... params) {
+                MuPDFPageView.this.addMarkup(((PointF[][]) params[0])[0], type, (int)params[1]);
                 return null;
             }
             
@@ -374,7 +374,7 @@ public class MuPDFPageView extends PageView implements MuPDFView
                 MuPDFPageView.this.loadAnnotations();
                 MuPDFPageView.this.update();
             }
-        }).execute(new PointF[][] { quadPoints.toArray(new PointF[quadPoints.size()]) });
+        }).execute(new PointF[][] { quadPoints.toArray(new PointF[quadPoints.size()]) }, getInkColor());
         this.deselectText();
         return true;
     }
@@ -419,15 +419,15 @@ public class MuPDFPageView extends PageView implements MuPDFView
         }
         (this.mAddInk = new AsyncTask<Object, Void, Void>() {
             protected Void doInBackground(final Object... params) {
-                MuPDFPageView.this.mCore.addInkAnnotation(MuPDFPageView.this.mPageNumber, (PointF[][])params[0], (float[])params[1], (float)params[2]);
+                MuPDFPageView.this.mCore.addInkAnnotation(MuPDFPageView.this.mPageNumber, (PointF[][])params[0], (int)params[1], (float)params[2]);
                 return null;
             }
             
             protected void onPostExecute(final Void result) {
-                MuPDFPageView.this.loadAnnotations();
                 MuPDFPageView.this.update();
+                MuPDFPageView.this.loadAnnotations();
             }
-        }).execute(new Object[] { this.getDraw(), this.getColor(), this.getInkThickness() });
+        }).execute(new Object[] { this.getDraw(), this.getInkColor(), this.getInkThickness() });
         this.cancelDraw();
         return true;
     }
@@ -471,8 +471,8 @@ public class MuPDFPageView extends PageView implements MuPDFView
     }
     
     @Override
-    protected void addMarkup(final PointF[] quadPoints, final Annotation.Type type) {
-        this.mCore.addMarkupAnnotation(this.mPageNumber, quadPoints, type);
+    protected void addMarkup(final PointF[] quadPoints, final Annotation.Type type , int color) {
+        this.mCore.addMarkupAnnotation(this.mPageNumber, quadPoints, type , color);
     }
     
     private void loadAnnotations() {
