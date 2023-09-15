@@ -4,22 +4,18 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.View;
 
-import com.artifex.mupdfdemo.Hit;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.artifex.mupdfdemo.MuPDFCore;
 import com.artifex.mupdfdemo.MuPDFPageAdapter;
 import com.artifex.mupdfdemo.MuPDFReaderView;
-import com.artifex.mupdfdemo.MuPDFReaderViewListener;
 import com.artifex.mupdfdemo.MuPDFView;
-import com.artifex.mupdfdemo.OutlineActivityData;
 import com.artifex.mupdfdemo.ReaderView;
 import com.lonelypluto.pdfviewerdemo.R;
-
-import java.util.concurrent.Executor;
 
 /**
  * @Description: 基础功能仅显示pdf
@@ -52,8 +48,8 @@ public class BasePDFActivity extends AppCompatActivity {
         // 判断如果core为空，提示不能打开文件
         if (muPDFCore == null) {
             AlertDialog alert = new AlertDialog.Builder(this).create();
-            alert.setTitle(com.lonelypluto.pdflibrary.R.string.cannot_open_document);
-            alert.setButton(AlertDialog.BUTTON_POSITIVE, getString(com.lonelypluto.pdflibrary.R.string.dismiss),
+            alert.setTitle(com.lonelypluto.pdfviewerdemo.R.string.cannot_open_document);
+            alert.setButton(AlertDialog.BUTTON_POSITIVE, getString(com.lonelypluto.pdfviewerdemo.R.string.dismiss),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             finish();

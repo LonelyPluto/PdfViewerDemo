@@ -8,8 +8,9 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -142,7 +143,7 @@ public class MoreSetActivity extends AppCompatActivity {
         btn_linkhighlightcolor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setLinkHighlightColor(ContextCompat.getColor(MoreSetActivity.this, com.lonelypluto.pdflibrary.R.color.link_bg));
+                setLinkHighlightColor(ContextCompat.getColor(MoreSetActivity.this, com.lonelypluto.pdfviewerdemo.R.color.link_bg));
             }
         });
 
@@ -151,7 +152,7 @@ public class MoreSetActivity extends AppCompatActivity {
         btn_searchtextcolor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setSearchTextColor(ContextCompat.getColor(MoreSetActivity.this, com.lonelypluto.pdflibrary.R.color.search_bg));
+                setSearchTextColor(ContextCompat.getColor(MoreSetActivity.this, com.lonelypluto.pdfviewerdemo.R.color.search_bg));
             }
         });
 
@@ -160,7 +161,7 @@ public class MoreSetActivity extends AppCompatActivity {
         btn_paintcolor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int c = ContextCompat.getColor(MoreSetActivity.this, com.lonelypluto.pdflibrary.R.color.rv_item_line_bg);
+                int c = ContextCompat.getColor(MoreSetActivity.this, com.lonelypluto.pdfviewerdemo.R.color.rv_item_line_bg);
                 setInkColor(0xFF0000FF);
             }
         });
@@ -210,8 +211,8 @@ public class MoreSetActivity extends AppCompatActivity {
         // 判断如果core为空，提示不能打开文件
         if (muPDFCore == null) {
             AlertDialog alert = mAlertBuilder.create();
-            alert.setTitle(com.lonelypluto.pdflibrary.R.string.cannot_open_document);
-            alert.setButton(AlertDialog.BUTTON_POSITIVE, getString(com.lonelypluto.pdflibrary.R.string.dismiss),
+            alert.setTitle(com.lonelypluto.pdfviewerdemo.R.string.cannot_open_document);
+            alert.setButton(AlertDialog.BUTTON_POSITIVE, getString(com.lonelypluto.pdfviewerdemo.R.string.dismiss),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             finish();
@@ -635,8 +636,8 @@ public class MoreSetActivity extends AppCompatActivity {
         mTopBarSwitcher.setDisplayedChild(mTopBarMode.ordinal());
         mAcceptMode = AcceptMode.CopyText;
         muPDFReaderView.setMode(MuPDFReaderView.Mode.Selecting);
-        mAnnotTypeText.setText(getString(com.lonelypluto.pdflibrary.R.string.copy_text));
-        showInfo(getString(com.lonelypluto.pdflibrary.R.string.select_text));
+        mAnnotTypeText.setText(getString(com.lonelypluto.pdfviewerdemo.R.string.copy_text));
+        showInfo(getString(com.lonelypluto.pdfviewerdemo.R.string.select_text));
     }
 
     /**
@@ -693,8 +694,8 @@ public class MoreSetActivity extends AppCompatActivity {
         mTopBarSwitcher.setDisplayedChild(mTopBarMode.ordinal());
         mAcceptMode = AcceptMode.Highlight;
         muPDFReaderView.setMode(MuPDFReaderView.Mode.Selecting);
-        mAnnotTypeText.setText(com.lonelypluto.pdflibrary.R.string.pdf_tools_highlight);
-        showInfo(getString(com.lonelypluto.pdflibrary.R.string.select_text));
+        mAnnotTypeText.setText(com.lonelypluto.pdfviewerdemo.R.string.pdf_tools_highlight);
+        showInfo(getString(com.lonelypluto.pdfviewerdemo.R.string.select_text));
     }
 
     /**
@@ -706,8 +707,8 @@ public class MoreSetActivity extends AppCompatActivity {
         mTopBarSwitcher.setDisplayedChild(mTopBarMode.ordinal());
         mAcceptMode = AcceptMode.Underline;
         muPDFReaderView.setMode(MuPDFReaderView.Mode.Selecting);
-        mAnnotTypeText.setText(com.lonelypluto.pdflibrary.R.string.pdf_tools_underline);
-        showInfo(getString(com.lonelypluto.pdflibrary.R.string.select_text));
+        mAnnotTypeText.setText(com.lonelypluto.pdfviewerdemo.R.string.pdf_tools_underline);
+        showInfo(getString(com.lonelypluto.pdfviewerdemo.R.string.select_text));
     }
 
     /**
@@ -719,8 +720,8 @@ public class MoreSetActivity extends AppCompatActivity {
         mTopBarSwitcher.setDisplayedChild(mTopBarMode.ordinal());
         mAcceptMode = AcceptMode.StrikeOut;
         muPDFReaderView.setMode(MuPDFReaderView.Mode.Selecting);
-        mAnnotTypeText.setText(com.lonelypluto.pdflibrary.R.string.pdf_tools_strike_out);
-        showInfo(getString(com.lonelypluto.pdflibrary.R.string.select_text));
+        mAnnotTypeText.setText(com.lonelypluto.pdfviewerdemo.R.string.pdf_tools_strike_out);
+        showInfo(getString(com.lonelypluto.pdfviewerdemo.R.string.select_text));
     }
 
     /**
@@ -732,8 +733,8 @@ public class MoreSetActivity extends AppCompatActivity {
         mTopBarSwitcher.setDisplayedChild(mTopBarMode.ordinal());
         mAcceptMode = AcceptMode.Ink;
         muPDFReaderView.setMode(MuPDFReaderView.Mode.Drawing);
-        mAnnotTypeText.setText(com.lonelypluto.pdflibrary.R.string.pdf_tools_ink);
-        showInfo(getString(com.lonelypluto.pdflibrary.R.string.pdf_tools_draw_annotation));
+        mAnnotTypeText.setText(com.lonelypluto.pdfviewerdemo.R.string.pdf_tools_ink);
+        showInfo(getString(com.lonelypluto.pdfviewerdemo.R.string.pdf_tools_draw_annotation));
     }
 
     /**
@@ -794,7 +795,7 @@ public class MoreSetActivity extends AppCompatActivity {
                 if (pageView != null)
                     success = pageView.copySelection();
                 mTopBarMode = TopBarMode.Main;
-                showInfo(success ? getString(com.lonelypluto.pdflibrary.R.string.copied_to_clipboard) : getString(com.lonelypluto.pdflibrary.R.string.no_text_selected));
+                showInfo(success ? getString(com.lonelypluto.pdfviewerdemo.R.string.copied_to_clipboard) : getString(com.lonelypluto.pdfviewerdemo.R.string.no_text_selected));
                 break;
             case Highlight:
                 // 高亮
@@ -803,7 +804,7 @@ public class MoreSetActivity extends AppCompatActivity {
                 }
                 mTopBarMode = TopBarMode.Annot;
                 if (!success) {
-                    showInfo(getString(com.lonelypluto.pdflibrary.R.string.no_text_selected));
+                    showInfo(getString(com.lonelypluto.pdfviewerdemo.R.string.no_text_selected));
                 }
                 break;
             case Underline:
@@ -811,7 +812,7 @@ public class MoreSetActivity extends AppCompatActivity {
                     success = pageView.markupSelection(Annotation.Type.UNDERLINE);
                 mTopBarMode = TopBarMode.Annot;
                 if (!success)
-                    showInfo(getString(com.lonelypluto.pdflibrary.R.string.no_text_selected));
+                    showInfo(getString(com.lonelypluto.pdfviewerdemo.R.string.no_text_selected));
                 break;
 
             case StrikeOut:
@@ -819,7 +820,7 @@ public class MoreSetActivity extends AppCompatActivity {
                     success = pageView.markupSelection(Annotation.Type.STRIKEOUT);
                 mTopBarMode = TopBarMode.Annot;
                 if (!success)
-                    showInfo(getString(com.lonelypluto.pdflibrary.R.string.no_text_selected));
+                    showInfo(getString(com.lonelypluto.pdfviewerdemo.R.string.no_text_selected));
                 break;
 
             case Ink:
@@ -827,7 +828,7 @@ public class MoreSetActivity extends AppCompatActivity {
                     success = pageView.saveDraw();
                 mTopBarMode = TopBarMode.Annot;
                 if (!success)
-                    showInfo(getString(com.lonelypluto.pdflibrary.R.string.nothing_to_save));
+                    showInfo(getString(com.lonelypluto.pdfviewerdemo.R.string.nothing_to_save));
                 break;
         }
         mTopBarSwitcher.setDisplayedChild(mTopBarMode.ordinal());
@@ -875,10 +876,10 @@ public class MoreSetActivity extends AppCompatActivity {
     private void showInfo(String message) {
 
         LayoutInflater inflater = getLayoutInflater();
-        View toastLayout = inflater.inflate(com.lonelypluto.pdflibrary.R.layout.toast,
-                (ViewGroup) findViewById(com.lonelypluto.pdflibrary.R.id.toast_root_view));
+        View toastLayout = inflater.inflate(com.lonelypluto.pdfviewerdemo.R.layout.toast,
+                (ViewGroup) findViewById(com.lonelypluto.pdfviewerdemo.R.id.toast_root_view));
 
-        TextView header = (TextView) toastLayout.findViewById(com.lonelypluto.pdflibrary.R.id.toast_message);
+        TextView header = (TextView) toastLayout.findViewById(com.lonelypluto.pdfviewerdemo.R.id.toast_message);
         header.setText(message);
 
         Toast toast = new Toast(getApplicationContext());
@@ -967,19 +968,19 @@ public class MoreSetActivity extends AppCompatActivity {
                 }
                 switch (result.buttonGroupType) {
                     case OkCancel:
-                        mAlertDialog.setButton(AlertDialog.BUTTON2, getString(com.lonelypluto.pdflibrary.R.string.cancel), listener);
+                        mAlertDialog.setButton(AlertDialog.BUTTON2, getString(com.lonelypluto.pdfviewerdemo.R.string.cancel), listener);
                         pressed[1] = MuPDFAlert.ButtonPressed.Cancel;
                     case Ok:
-                        mAlertDialog.setButton(AlertDialog.BUTTON1, getString(com.lonelypluto.pdflibrary.R.string.okay), listener);
+                        mAlertDialog.setButton(AlertDialog.BUTTON1, getString(com.lonelypluto.pdfviewerdemo.R.string.okay), listener);
                         pressed[0] = MuPDFAlert.ButtonPressed.Ok;
                         break;
                     case YesNoCancel:
-                        mAlertDialog.setButton(AlertDialog.BUTTON3, getString(com.lonelypluto.pdflibrary.R.string.cancel), listener);
+                        mAlertDialog.setButton(AlertDialog.BUTTON3, getString(com.lonelypluto.pdfviewerdemo.R.string.cancel), listener);
                         pressed[2] = MuPDFAlert.ButtonPressed.Cancel;
                     case YesNo:
-                        mAlertDialog.setButton(AlertDialog.BUTTON1, getString(com.lonelypluto.pdflibrary.R.string.yes), listener);
+                        mAlertDialog.setButton(AlertDialog.BUTTON1, getString(com.lonelypluto.pdfviewerdemo.R.string.yes), listener);
                         pressed[0] = MuPDFAlert.ButtonPressed.Yes;
-                        mAlertDialog.setButton(AlertDialog.BUTTON2, getString(com.lonelypluto.pdflibrary.R.string.no), listener);
+                        mAlertDialog.setButton(AlertDialog.BUTTON2, getString(com.lonelypluto.pdfviewerdemo.R.string.no), listener);
                         pressed[1] = MuPDFAlert.ButtonPressed.No;
                         break;
                 }
@@ -1073,10 +1074,10 @@ public class MoreSetActivity extends AppCompatActivity {
                 }
             };
             AlertDialog alert = mAlertBuilder.create();
-            alert.setTitle(com.lonelypluto.pdflibrary.R.string.dialog_title);
-            alert.setMessage(getString(com.lonelypluto.pdflibrary.R.string.document_has_changes_save_them));
-            alert.setButton(AlertDialog.BUTTON_POSITIVE, getString(com.lonelypluto.pdflibrary.R.string.yes), listener);
-            alert.setButton(AlertDialog.BUTTON_NEGATIVE, getString(com.lonelypluto.pdflibrary.R.string.no), listener);
+            alert.setTitle(com.lonelypluto.pdfviewerdemo.R.string.dialog_title);
+            alert.setMessage(getString(com.lonelypluto.pdfviewerdemo.R.string.document_has_changes_save_them));
+            alert.setButton(AlertDialog.BUTTON_POSITIVE, getString(com.lonelypluto.pdfviewerdemo.R.string.yes), listener);
+            alert.setButton(AlertDialog.BUTTON_NEGATIVE, getString(com.lonelypluto.pdfviewerdemo.R.string.no), listener);
             alert.show();
         } else {
             finish();
